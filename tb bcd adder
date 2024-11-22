@@ -1,0 +1,50 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/22/2024 06:52:52 PM
+// Design Name: 
+// Module Name: tb_bdc_adder
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module tb_bcd_adder;
+    logic [7:0] A, B;
+    logic Cin;
+    logic [7:0] S;
+    logic Cout;
+
+    BCD_adder uut (
+        .A(A),
+        .B(B),
+        .Cin(Cin),
+        .S(S),
+        .Cout(Cout)
+    );
+
+    initial begin
+        A = 8'b00001001; B = 8'b00000001; Cin = 0;
+        #10 A = 8'b00001011; B = 8'b00000101; Cin = 0;
+        #10 A = 8'b00100001; B = 8'b00011001; Cin = 1;
+        #10 A = 8'b00010010; B = 8'b00001001; Cin = 0;
+        #10 A = 8'b10011001; B = 8'b00000001; Cin = 0;
+        #10 $finish;
+    end
+
+    initial begin
+        $monitor("Time=%0d A=%b B=%b Cin=%b | S=%b Cout=%b", $time, A, B, Cin, S, Cout);
+    end
+endmodule
+
