@@ -1,0 +1,44 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/22/2024 06:43:14 PM
+// Design Name: 
+// Module Name: BCD_adder
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+module BCD_adder (
+    input logic [7:0] A,
+    input logic [7:0] B,
+    input logic Cin,
+    output logic [7:0] S,
+    output logic Cout
+);
+    logic [3:0] sum_lower, sum_upper;
+    logic c1, c2, correction_lower, correction_upper;
+
+    assign {c1, sum_lower} = A[3:0] + B[3:0] + Cin;
+    assign correction_lower = (sum_lower > 4'd9) ? 4'd6 : 4'd0;
+    assign {c2, sum_lower} = sum_lower + correction_lower;
+
+    assign {c1, sum_upper} = A[7:4] + B[7:4] + c2;
+    assign correction_upper = (sum_upper > 4'd9) ? 4'd6 : 4'd0;
+    assign {Cout, sum_upper} = sum_upper + correction_upper;
+
+    assign S = {sum_upper, sum_lower};
+endmodule
+
