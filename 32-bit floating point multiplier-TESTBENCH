@@ -1,0 +1,26 @@
+module tb_fp32_multiplier;
+    logic [31:0] a;
+    logic [31:0] b;
+    logic [31:0] result;
+    fp32_multiplier uut (.a(a), .b(b), .result(result));
+
+    initial begin
+        a = 32'h40000000; // 2.0
+        b = 32'h40400000; // 3.0
+        #10;
+
+        a = 32'h40800000; // 4.0
+        b = 32'h40A00000; // 5.0
+        #10;
+
+        a = 32'h3F800000; // 1.0
+        b = 32'h3F800000; // 1.0
+        #10;
+
+        a = 32'h41000000; // 8.0
+        b = 32'h42000000; // 32.0
+        #10;
+
+        $finish;
+    end
+endmodule
