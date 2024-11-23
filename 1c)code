@@ -1,0 +1,44 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 11/23/2024 11:54:59 AM
+// Design Name: 
+// Module Name: e3
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module e3 (
+    input logic A, B, C, D,
+    output logic Y, Z
+);
+
+logic nA, nB, nC, nD;
+logic t1, t2, t3, t4;
+
+assign nA = ~A;
+assign nB = ~B;
+assign nC = ~C;
+assign nD = ~D;
+
+assign t1 = nA & nB & nC & D;
+assign t2 = nA & nB & C & nD;
+assign t3 = A & B & nC & D;
+assign t4 = A & B & C & nD;
+
+assign Y = t1 | t2;
+assign Z = t3 | t4;
+
+endmodule
+
