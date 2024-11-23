@@ -1,0 +1,39 @@
+module tb_prefix_adder_32bit;
+    logic [31:0] a;
+    logic [31:0] b;
+    logic cin;
+    logic [31:0] sum;
+    logic cout;
+    
+    prefix_adder_32bit uut (
+        .a(a),
+        .b(b),
+        .cin(cin),
+        .sum(sum),
+        .cout(cout)
+    );
+
+    initial begin
+        a = 32'h12345678;
+        b = 32'h87654321;
+        cin = 0;
+        #10;
+        
+        a = 32'hFFFFFFFF;
+        b = 32'h00000001;
+        cin = 1;
+        #10;
+        
+        a = 32'hAAAAAAAA;
+        b = 32'h55555555;
+        cin = 0;
+        #10;
+        
+        a = 32'h80000000;
+        b = 32'h7FFFFFFF;
+        cin = 1;
+        #10;
+        
+        $finish;
+    end
+endmodule
