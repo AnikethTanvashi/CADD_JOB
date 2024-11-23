@@ -1,0 +1,32 @@
+module fp32_multiplier (
+    input logic [31:0] a,
+    input logic [31:0] b,
+    output logic [31:0] result
+);
+    logic [7:0] exponent_a, exponent_b, exponent_result;
+    logic [22:0] mantissa_a, mantissa_b;
+    logic [23:0] extended_mantissa_a, extended_mantissa_b;
+    logic [47:0] product_mantissa;
+    logic [7:0] exponent_sum;
+
+    assign exponent_a = a[30:23];
+    assign exponent_b = b[30:23];
+    assign mantissa_a = a[22:0];
+    assign mantissa_b = b[22:0];
+
+    assign extended_mantissa_a = {1'b1, mantissa_a};
+    assign extended_mantissa_b = {1'b1, mantissa_b};
+
+    assign product_mantissa = extended_mantissa_a * extended_mantissa_b;
+    assign exponent_sum = exponent_a + exponent_b - 8'd127;
+
+    always_comb begin
+        if (product_mantissa[47]) begin
+            exponent_result = exponent_sum + 8'd1;
+            result = {1'b0, exponent_result, product_mantissa[46:24]};
+        end else begin
+            exponent_result = exponent_sum;
+            result = {1'b0, exponent_result, product_mantissa[45:23]};
+        end
+    end
+endmodule
