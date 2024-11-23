@@ -1,0 +1,35 @@
+module prefix_adder_32bit (
+    input logic [31:0] a,
+    input logic [31:0] b,
+    input logic cin,
+    output logic [31:0] sum,
+    output logic cout
+);
+    logic [31:0] p, g, c;
+    logic [31:0] intermediate_sum;
+    
+    assign p = a ^ b;
+    assign g = a & b;
+    
+    logic [31:0] c0, c1, c2, c3, c4, c5;
+    
+    assign c0[0] = cin;
+    assign c0[31:1] = g[30:0] | (p[30:0] & c0[30:0]);
+    
+    always_comb begin
+        c1 = g | (p & {c0[30:0], 1'b0});
+        c2 = g | (p & c1);
+        c3 = g | (p & c2);
+        c4 = g | (p & c3);
+        c5 = g | (p & c4);
+    end
+    
+    assign c[0] = cin;
+    assign c[31:1] = c5[30:0];
+    assign intermediate_sum = p ^ c;
+    
+    always_comb begin
+        sum = intermediate_sum;
+        cout = c[31];
+    end
+endmodule
